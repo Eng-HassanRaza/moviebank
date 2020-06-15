@@ -1,0 +1,32 @@
+{% extends 'movies/base.html' %}
+{% load static %}
+{% block content %}
+    <main class="content">
+			<div class="single">
+				<section class="movie">
+					<img src="{{ object.imgPath.url }}" style="width: 30%;">
+					<ul>
+						<li>{{ object.name }}</li>
+                        <li>
+                            {% for key,values in object.mpaaRating.items %}
+                                {{ values }}{% if not forloop.last %}
+                                :
+                                {% endif %}
+                            {% endfor %}
+                        </li>
+						<li>{{ object.description }}</li>
+						<li>Genre : {% for item in object.genre %}
+                                {{ item }}
+                            {% if not forloop.last %}
+                                ,
+                            {% endif %}
+                            {% endfor %}
+                        </li>
+						<li>Language: {{ object.language }}</li>
+						<li>User Rating: {{ object.userRating }}</li>
+						<li>Duration: {{ object.duration }}</li>
+					</ul>
+				</section>
+			</div>
+		</main>
+{% endblock %}

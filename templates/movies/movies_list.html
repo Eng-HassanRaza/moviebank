@@ -1,0 +1,56 @@
+{% extends 'movies/base.html' %}
+{% load static %}
+{% block content %}
+    <style>
+    #myInput {
+  background-image: url('/css/searchicon.png'); /* Add a search icon to input */
+  background-position: 10px 12px; /* Position the search icon */
+  background-repeat: no-repeat; /* Do not repeat the icon image */
+  width: 100%; /* Full-width */
+  font-size: 16px; /* Increase font-size */
+  padding: 12px 20px 12px 40px; /* Add some padding */
+  border: 1px solid #ddd; /* Add a grey border */
+  margin-bottom: 12px; /* Add some space below the input */
+}
+    </style>
+    <main class="content">
+
+			<section class="centered">
+            <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
+				<h3>Most Popular Movies</h3>
+				<div class="movies" id="myUL">
+                    {% for movie in object_list %}
+					    <div class="mov" id="li">
+						<a href="{% url 'movie-detail' movie.id%}">
+							<img src="{{ movie.imgPath.url }}">
+							<h2 class="movietitle">{{ movie.name }} <br> {{ movie.duration }} min </br> User Ratings: {{ userRating }}</h2>
+						</a>
+					</div>
+                    {% endfor %}
+				</div>
+				<nav class="pagination">
+					<ul>
+                        {% if page_obj.has_previous %}
+                          <li><a href="?page={{ page_obj.previous_page_number }}">Prev</a></li>
+                        {% else %}
+                         <li class="disabled"><a>Prev</a></li>
+                        {% endif %}
+                    {% for i in page_obj.paginator.page_range %}
+                      {% if page_obj.number == i %}
+                        <li class="menuactive"><a class="menuactive">{{ i }} </a></li>
+                      {% else %}
+                        <li><a href="?page={{ i }}">{{ i }}</a></li>
+                      {% endif %}
+                    {% endfor %}
+                     {% if page_obj.has_next %}
+                      <li><a href="?page={{ page_obj.next_page_number }}">Next</a></li>
+                    {% else %}
+                      <li class="disabled"><a>Next</a></li>
+                    {% endif %}
+					</ul>
+				</nav>
+			</section>
+
+		</main>
+
+{% endblock %}
